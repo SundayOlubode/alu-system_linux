@@ -7,11 +7,18 @@
  *
  * Return: 0 on success
  */
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
 	char SHELLSCRIPT[120] = "nm -p ";
 
-	strcat(SHELLSCRIPT, argv[1]);
+	if (argc < 2)
+	{
+		strcat(SHELLSCRIPT, "nm_objdump");
+	}
+	else
+	{
+		strcat(SHELLSCRIPT, argv[1]);
+	}
 
 	system(SHELLSCRIPT);
 	return (0);
