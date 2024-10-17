@@ -9,17 +9,17 @@
  */
 int main(int argc, char *argv[])
 {
-        char SHELLSCRIPT[120] = "nm -p ";
+	char SHELLSCRIPT[120] = "nm -p ";
 
-        if (argc < 2)
-        {
-                strcat(SHELLSCRIPT, "hnm_main");
-        }
-        else
-        {
-                strcat(SHELLSCRIPT, argv[1]);
-        }
+	if (argc < 2)
+	{
+		strcat(SHELLSCRIPT, "hnm_main");
+	}
+	else
+	{
+		strcat(SHELLSCRIPT, argv[1]);
+	}
 
-        system(SHELLSCRIPT);
-        return (0);
+	system(SHELLSCRIPT);
+	return (0);
 }
