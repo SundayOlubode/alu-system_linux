@@ -8,10 +8,10 @@
 # Makefile to compile and run hnm
 
 # Variables
-CC = gcc           # The compiler
-CFLAGS = -Wall     # Compilation flags
-TARGET = hnm       # The final executable name
-SRC = hnm_main.c # The C source file
+CC = gcc                      # The compiler
+CFLAGS = -Wall -std=c99        # Compilation flags with C99 standard
+TARGET = hnm                   # The final executable name
+SRC = hnm_main.c               # The C source file
 
 # Rule to compile the C file into an executable
 $(TARGET): $(SRC)
