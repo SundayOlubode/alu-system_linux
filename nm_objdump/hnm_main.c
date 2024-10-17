@@ -1,50 +1,51 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
+#include "hnm.h"
 
 /**
- * main - main function to simulate GNU nm
- *
- * @argc: Number of command line arguments
- * @argv: List of command line arguments
- *
- * Return: 0 on success, 1 on failure
+ * main - the entry point
+ * program made for the ELF file processing program
+ * @argc: the count of command-line arguments
+ * @argv: the array of command-line arguments,
+ *        where argv[1] is expected to be the path to the ELF file
+ * Return: 0 on successful execution,
+ *         or 0 in case of an error such as missing file argument
+ *         or unsupported ELF file type
  */
+
 int main(int argc, char *argv[])
 {
-	int i;
+	char *file_path = argv[1];
 
-	// Ensure at least one object file is passed as an argument
 	if (argc < 2)
 	{
-		fprintf(stderr, "Usage: %s [objfile ...]\n", argv[0]);
-		return 1;
+		printf("Il faut fournir un fichier ELF !\n");
+		return (0);
 	}
 
-	// Loop over each file passed as an argument
-	for (i = 1; i < argc; i++)
+	FILE *file = fopen(file_path, "rb");
+
+	if (file == NULL)
 	{
-		char command[256] = "nm -p "; // Prepare the command string
-
-		// Check if the file exists before running the command
-		if (access(argv[i], F_OK) == -1)
-		{
-			// If file doesn't exist, print a custom error message
-			fprintf(stderr, "%s: %s: no symbols\n", argv[0], argv[i]);
-			continue;
-		}
-
-		// Append the current file name to the command
-		strcat(command, argv[i]);
-
-		// Execute the nm command with system()
-		if (system(command) != 0)
-		{
-			fprintf(stderr, "%s: Failed to run nm on file '%s'\n", argv[0], argv[i]);
-			return 1;
-		}
+		printf("Il y a une erreur pour de l'ouverture du fichier\n");
+		return (0);
 	}
 
-	return 0;
+	Elf64_Ehdr elf_header;
+	fread(&elf_header, sizeof(Elf64_Ehdr), 1, file);
+
+	if (elf_header.e_ident[EI_CLASS] == ELFCLASS32)
+	{
+		process_elf_file32(file_path);
+	}
+	else if (elf_header.e_ident[EI_CLASS] == ELFCLASS64)
+	{
+		process_elf_file64(file_path);
+	}
+	else
+	{
+		printf("Type de fichier ELF non pris en charge...\n");
+	}
+
+	fclose(file);
+
+	return (0);
 }

@@ -1,22 +1,46 @@
+# Compiler to use
+CC = gcc
 
-# hnm_main: hnm_main.c
-# 	gcc -static -o hnm_main hnm_main.c
+# Compiler flags to ensure strict compliance with code standards and to enable debugging
+CFLAGS = -Wall -Werror -Wextra -pedantic -g -std=c99
 
-# hnm: hnm_main
-# 	./hnm_main ${ARGS}
+# Additional flags for debugging
+DEBUGFLAGS = -g
 
-# Makefile to compile and run hnm
+# Names of the target executables
+TARGET_0 = hnm
+TARGET_1 = hobjdump
 
-# Variables
-CC = gcc                      # The compiler
-CFLAGS = -Wall -std=c99        # Compilation flags with C99 standard
-TARGET = hnm                   # The final executable name
-SRC = hnm_main.c               # The C source file
+# Source files for the hnm program
+SOURCE_0 = hnm-64.c hnm-32.c hnm_main.c
 
-# Rule to compile the C file into an executable
-$(TARGET): $(SRC)
-	$(CC) $(CFLAGS) -o $(TARGET) $(SRC)
+# Header files for the hnm program
+HEADERS_0 = hnm.h
 
-# Clean up compiled files
+# Source files for the hobjdump program
+SOURCE_1 = hobjdump.c
+
+# Default rule to build all programs
+all: $(TARGET_0) $(TARGET_1)
+
+# Rule to compile with debug information
+debug: CFLAGS += $(DEBUGFLAGS)
+debug: all
+
+# Rule to build the hnm program
+$(TARGET_0): $(SOURCE_0) $(HEADERS_0)
+	$(CC) $(CFLAGS) -o $(TARGET_0) $(SOURCE_0)
+
+# Rule to build the hobjdump program
+$(TARGET_1): $(SOURCE_1)
+	$(CC) $(CFLAGS) -o $(TARGET_1) $(SOURCE_1)
+
+# Rule to clean up the compiled binaries and object files
 clean:
-	rm -f $(TARGET)
+	rm -f $(TARGET_0) $(TARGET_1)
+	rm -f *.o
+	rm -f *.out
+	rm -f *~
+
+# Declaring phony targets to avoid conflicts with files of the same name
+.PHONY: all clean debug
