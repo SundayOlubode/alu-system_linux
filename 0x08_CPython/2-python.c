@@ -1,4 +1,7 @@
 #include <Python.h>
+#include <python3.4/listobject.h>
+#include <python3.4/object.h>
+#include <python3.4/bytesobject.h>
 
 void print_python_list(PyObject *py_list)
 {
@@ -37,7 +40,6 @@ void print_python_bytes(PyObject *p)
                         printf("  first 10 bytes:");
 
                 for (int i = 0; i <= pb->ob_base.ob_size && i < 10; ++i)
-
                 {
                         printf(" %02hhx", pb->ob_sval[i]);
                 }
