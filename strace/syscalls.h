@@ -2,6 +2,12 @@
 #define _SYSCALLS_H_
 
 #include <stddef.h>
+#include <sys/types.h>
+#include <sys/ptrace.h>
+#include <sys/wait.h>
+#include <sys/user.h> // For struct user_regs_struct
+#include <stdio.h>
+#include <unistd.h>
 
 /* Normally, MAX_PARAMS is always 6 */
 #define MAX_PARAMS 6
