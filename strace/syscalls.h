@@ -5,7 +5,7 @@
 #include <sys/types.h>
 #include <sys/ptrace.h>
 #include <sys/wait.h>
-#include <sys/user.h> // For struct user_regs_struct
+#include <sys/user.h>
 #include <stdio.h>
 #include <unistd.h>
 
